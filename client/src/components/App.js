@@ -19,9 +19,17 @@ export default class App extends React.Component {
     }
   }
 
-  onUpdate = (note, noteId) => {
-    notesApi.patch(`/${noteId}`, { note });
-    this.setState({ msg: 'Note updated' });
+  onUpdate = async (note, noteId) => {
+    const response = await notesApi.patch(`/${noteId}`, { note });
+    const localNotes = JSON.parse(localStorage.getItem('localNotes'));
+    const foundIndex = localNotes.findIndex(
+      localNote => localNote.id === response.data._id
+    );
+
+    localNotes[foundIndex].updatedAt = response.data.updatedAt;
+    localStorage.setItem('localNotes', JSON.stringify(localNotes));
+
+    this.setState({ msg: 'Note updated', msgColor: 'yellow', localNotes });
   };
 
   onCreate = async note => {
@@ -41,14 +49,24 @@ export default class App extends React.Component {
 
     if (localNotes) {
       localNotes = JSON.parse(localNotes);
-      localNotes.push({ id: response.data._id, pass: response.data.pass });
+      localNotes.push({
+        id: response.data._id,
+        pass: response.data.pass,
+        updatedAt: response.data.updatedAt
+      });
       this.setState({ localNotes });
       localStorage.setItem('localNotes', JSON.stringify(localNotes));
     } else {
       this.setState({ localNotes });
       localStorage.setItem(
         'localNotes',
-        JSON.stringify([{ id: response.data._id, pass: response.data.pass }])
+        JSON.stringify([
+          {
+            id: response.data._id,
+            pass: response.data.pass,
+            updatedAt: response.data.updatedAt
+          }
+        ])
       );
     }
 
@@ -58,7 +76,9 @@ export default class App extends React.Component {
   renderMessage = () => {
     if (this.state.msg !== '') {
       return (
-        <div class={`ui ${this.state.msgColor} message`}>{this.state.msg}</div>
+        <div className={`ui ${this.state.msgColor} message`}>
+          {this.state.msg}
+        </div>
       );
     } else {
       return;
@@ -74,7 +94,6 @@ export default class App extends React.Component {
   };
 
   onLocalNoteSelect = note => {
-    console.log(note);
     this.setState({ note });
   };
 

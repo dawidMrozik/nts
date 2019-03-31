@@ -3,18 +3,26 @@ import { NavLink } from 'react-router-dom';
 import './app.css';
 
 export default class LocalNotes extends React.Component {
+  renderDateTimes(updatedAt) {
+    const date = new Date(updatedAt);
+
+    return date.toLocaleString();
+  }
+
   renderLocalNotesList = () => {
-    return this.props.localNotes.map(localNote => (
-      <NavLink
-        className="item"
-        key={localNote.id}
-        onClick={() => this.props.onSelect(localNote.id)}
-        to={`/${localNote.id}/${localNote.pass}`}
-      >
-        <i class="right triangle icon" />
-        {localNote.id}
-      </NavLink>
-    ));
+    if (this.props.localNotes) {
+      return this.props.localNotes.map(localNote => (
+        <NavLink
+          className="item"
+          key={localNote.id}
+          onClick={() => this.props.onSelect(localNote.id)}
+          to={`/${localNote.id}/${localNote.pass}`}
+        >
+          <i className="right triangle icon" />
+          {this.renderDateTimes(localNote.updatedAt)}
+        </NavLink>
+      ));
+    }
   };
 
   render() {

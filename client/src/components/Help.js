@@ -17,9 +17,9 @@ export default function Help() {
       </p>
       <p>
         To access one of your notes use URL pattern:
-        <div class="ui inverted segment">
+        <span className="ui inverted segment">
           /ID_OF_YOUR_NOTE/PASSWORD_TO_YOUR_NOTE
-        </div>
+        </span>
       </p>
       <p>Enjoy</p>
     </div>

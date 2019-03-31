@@ -18,18 +18,19 @@ export default class FetchedNote extends React.Component {
     });
   }
 
-  async componentDidUpdate() {
-    const response = await notesApi.post(`/${this.props.match.params.id}`, {
-      pass: this.props.match.params.pass
-    });
+  // async componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.fetchedNote !== this.state.fetchedNote) {
+  //     const { id, pass } = this.props.match.params;
+  //     const response = await notesApi.get(`/${id}/${pass}`);
 
-    this.setState({
-      fetchedNote: RichTextEditor.createValueFromString(
-        response.data.note,
-        'html'
-      )
-    });
-  }
+  //     this.setState({
+  //       fetchedNote: RichTextEditor.createValueFromString(
+  //         response.data.note,
+  //         'html'
+  //       )
+  //     });
+  //   }
+  // }
 
   onSave = () => {
     this.props.onUpdate(
@@ -51,9 +52,9 @@ export default class FetchedNote extends React.Component {
         />
         <button
           onClick={this.onSave}
-          class="ui right labeled right floated icon yellow button spaced"
+          className="ui right labeled right floated icon yellow button spaced"
         >
-          <i class="right save icon" />
+          <i className="right save icon" />
           Save
         </button>
       </div>

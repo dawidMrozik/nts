@@ -21,10 +21,10 @@ class NewNote extends React.Component {
         <div className="space" />
         <button
           onClick={this.onSave}
-          class="ui right labeled right floated icon green button"
+          className="ui right labeled right floated icon green button"
           style={{ marginTop: '2vh' }}
         >
-          <i class="right plus square icon" />
+          <i className="right plus square icon" />
           Create
         </button>
       </div>
