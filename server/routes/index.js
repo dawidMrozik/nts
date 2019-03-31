@@ -18,10 +18,10 @@ router.post('/', (req, res) => {
   newNote.save().then(newNote => res.json(newNote));
 });
 
-router.post('/:id', (req, res) => {
+router.get('/:id/:pass', (req, res) => {
   Note.findById(req.params.id)
     .then(foundNote => {
-      if (foundNote.pass === req.body.pass) {
+      if (foundNote.pass === req.params.pass) {
         res.json(foundNote);
       } else {
         res.json({ message: 'Password not correct' });

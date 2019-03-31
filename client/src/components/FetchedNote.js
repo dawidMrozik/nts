@@ -7,9 +7,8 @@ export default class FetchedNote extends React.Component {
   state = { fetchedNote: RichTextEditor.createEmptyValue() };
 
   async componentDidMount() {
-    const response = await notesApi.post(`/${this.props.match.params.id}`, {
-      pass: this.props.match.params.pass
-    });
+    const { id, pass } = this.props.match.params;
+    const response = await notesApi.get(`/${id}/${pass}`);
 
     this.setState({
       fetchedNote: RichTextEditor.createValueFromString(
@@ -53,7 +52,6 @@ export default class FetchedNote extends React.Component {
         <button
           onClick={this.onSave}
           class="ui right labeled right floated icon yellow button spaced"
-          style={{ marginTop: '2vh' }}
         >
           <i class="right save icon" />
           Save
